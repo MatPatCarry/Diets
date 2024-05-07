@@ -1,0 +1,3 @@
+to jest drugi plik
+i jego druga linia
+z chrząszczem

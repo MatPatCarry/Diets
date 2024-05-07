@@ -1,0 +1,71 @@
+\documentclass[10pt]{article}
+
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\graphicspath{{images/}}
+
+\usepackage{geometry}
+\newgeometry{tmargin=4cm, bmargin=4cm, lmargin=3.2cm, rmargin=3.2cm} 
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+ 
+
+\begin{document}
+
+\input{strona_tytulowa}
+
+\begin{abstract}
+Celem pracy jest, żeby prowadzący się cieszył. Dane do badań zostały pobrane z Ministerstwa Prawdy. Analizę przeprowadzono z wykorzystaniem modelu zstępującego. W rezultacie symulacji wielokrotnej udało się ustalić, że co trzeci Polak jest przekonany, że jest co drugim Polakiem.  
+\end{abstract}
+
+\section{Wstęp -- sformułowanie problemu}
+\label{sec:wstep}
+
+Z zachorowaniami jest tak, że nigdy nie wiadomo kto kogo. W ramach pracy utworzona zostanie sieć kontaktów wzajemnych w oparciu o bazę danych udostępnionych na stronie Ministerstwa Prawdy. Podjęta zostanie próba wywnioskowania z otrzymanej sieci informacji kto z kim, kiedy i gdzie.
+
+\section{Opis rozwiązania}
+
+Dane kto kogo zostaną pobrane ze strony \url{www.minpra.gov.pl}. Dostęp do danych uzyskano metodą na rympał. Baza została zapisana w postaci ramki danych biblioteki \texttt{Pandas}. Zawiera ona informacje o 43440 osobach w wieku od 12 do 68 lat, licząc od urodzenia. 
+
+Wyznaczono odwzorowanie relacji \textit{kto kogo} na \textit{kto z kim} za pomocą wzorów Cramera, z których następnie uzyskano zbiór wartości własnych, a z całości obliczono wyznacznik trzeciego stopnia, będący rozwiązaniem postawionego problemu. Analogicznie wyznaczono relacje \textit{kto kiedy} i \textit{gdzie z kim}, przy czym odpowiednio do rodzaju relacji dobrany został stopień wyznacznika, a wartość stałej Laplace'a estymowano w drodze symulacji Monte Carlo.
+
+\section{Rezultaty obliczeń}
+
+\subsection{Plan badań}
+Dla ułatwienia obliczeń wiek zastąpiono wzrostem, a do wagi dodano miejsce urodzenia. Wartość estymowanej stałej Laplace'a uśredniano ze 100 symulacji.
+
+\subsection{Wyniki obliczeń} 
+Wyznacznik trzeciego stopnia określony jest wzorem:
+\begin{equation}
+\det Z = e^{-\alpha},
+\label{eq:wzor_wazny}
+\end{equation}
+gdzie $Z$ to zbiór wartości własnych a $\alpha$ to stała sprzężenia.
+
+Na rys. \ref{fig:korelacje} pokazane jest wszystko, co trzeba. 
+\begin{figure}[!hbt]
+\begin{center}
+\includegraphics[width=0.8\linewidth]{rys1.png}
+\caption{Fałszywe korelacje}
+\label{fig:korelacje}
+\end{center}
+\end{figure}
+Od lewej strony przedstawiono kolejne kroki obliczeń. Różne położenia punktów na osi oznaczają, że gdy ten mały zaczął krążyć, to ten duży nie mógł zdążyć. Kolejna para ilustruje, że gdy ten duży nie mógł zdążyć, to ten mały przestał krążyć. W punkcie 3 widać, że duży mógł już zdążyć, więc mały znowu zaczął krążyć.
+
+Podsumowując, symulacje ujawniają występowanie efektu sprzężenia zwrotnego. Wzór (\ref{eq:wzor_wazny}) okazał się bardzo ważny.
+
+\section{Wnioski}
+Odkryty efekt sprzężenia zwrotnego wskazuje wyraźnie na fakt, że co trzeci Polak jest przekonany, że jest co drugim Polakiem. Dodatkowym potwierdzeniem jest wysoka wartość stałej Laplace'a. Rozwiązano zatem problem postawiony w punkcie \ref{sec:wstep}.
+
+
+\appendix
+\section{Dodatek}
+Kody źródłowe umieszczone zostały w repozytorium github:
+
+\noindent \url{https://github.com/jdrapala/sieci_zlozone}.
+
+
+\end{document}
